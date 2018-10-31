@@ -1,0 +1,63 @@
+PODS:
+  - Alamofire (4.7.3)
+  - ISO8601 (0.6.0)
+  - Realm (3.11.1):
+    - Realm/Headers (= 3.11.1)
+  - Realm/Headers (3.11.1)
+  - RealmSwift (3.11.1):
+    - Realm (= 3.11.1)
+  - RxAlamofire (4.3.0):
+    - RxAlamofire/Core (= 4.3.0)
+  - RxAlamofire/Core (4.3.0):
+    - Alamofire (~> 4.5)
+    - RxSwift (~> 4)
+  - RxCocoa (4.3.1):
+    - RxSwift (~> 4.0)
+  - RxSwift (4.3.1)
+  - SVProgressHUD (2.2.5)
+  - SVPullToRefresh (0.4.1)
+  - SwiftDate (4.4.1)
+  - SwiftyJSON (4.2.0)
+
+DEPENDENCIES:
+  - Alamofire
+  - ISO8601
+  - RealmSwift
+  - RxAlamofire
+  - RxCocoa
+  - RxSwift
+  - SVProgressHUD
+  - SVPullToRefresh
+  - SwiftDate (= 4.4.1)
+  - SwiftyJSON
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - ISO8601
+    - Realm
+    - RealmSwift
+    - RxAlamofire
+    - RxCocoa
+    - RxSwift
+    - SVProgressHUD
+    - SVPullToRefresh
+    - SwiftDate
+    - SwiftyJSON
+
+SPEC CHECKSUMS:
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  ISO8601: d3ea3ba9b752820cf92c6b47a9ee327e9f0e13fc
+  Realm: 037c5919b9ceb59d6beed5d3b031096856b119b3
+  RealmSwift: c9580133e73ef40ed340401af2dbc9a5790dfea7
+  RxAlamofire: 09624d0f2d48ed8b686e4eb4cf68e28cbd2df556
+  RxCocoa: 78763c7b07d02455598d9fc3c1ad091a28b73635
+  RxSwift: fe0fd770a43acdb7d0a53da411c9b892e69bb6e4
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  SVPullToRefresh: ba2e718695a43253d8bea6852d2960097dc15d8c
+  SwiftDate: a70a534d4feed03b2a2b575e36bef82dc2286a8d
+  SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
+
+PODFILE CHECKSUM: adf5843520ba068714b5dcad08ca301eaa5a4d02
+
+COCOAPODS: 1.5.3
