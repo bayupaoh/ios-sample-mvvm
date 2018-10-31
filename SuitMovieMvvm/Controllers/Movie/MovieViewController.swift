@@ -41,10 +41,19 @@ class MovieViewController: UIViewController {
     
     private func setupDataBinding(){
         viewModel?.movies.asObservable()
-            .bind(to: tableView.rx.items(cellIdentifier: MovieCell.className(), cellType: MovieCell.self)){
-                row, movie, cell in
-                cell.movie = movie
-            }.disposed(by: disposeBag)
+            .bind(to: tableView.rx.items(cellIdentifier: MovieCell.className(), cellType: MovieCell.self))(setupCell)
+            .disposed(by: disposeBag)
+        
+        Observable
+            .zip(tableView.rx.itemSelected, tableView.rx.modelSelected(Movie.self))
+            .bind { [unowned self] indexPath, model in
+                self.tableView.deselectRow(at: indexPath, animated: true)
+                print("Selected \(model.title) at \(indexPath)")
+            }
+            .disposed(by: disposeBag)
     }
-    
+ 
+    private func setupCell(row: Int, element: Movie, cell: MovieCell){
+        cell.movie = element
+    }
 }
