@@ -12,6 +12,8 @@
 		20737BE92189822100041C07 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20737BE72189822100041C07 /* MovieCell.swift */; };
 		20737BEA2189822100041C07 /* MovieCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20737BE82189822100041C07 /* MovieCell.xib */; };
 		20737BEE218983C100041C07 /* MovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20737BED218983C100041C07 /* MovieViewModel.swift */; };
+		20925172218C457F00530F7E /* UIKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20925171218C457F00530F7E /* UIKitExtensions.swift */; };
+		20925174218C45B700530F7E /* RxExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20925173218C45B700530F7E /* RxExtensions.swift */; };
 		85BB569F2073CD456DB3D864 /* Pods_SuitMovieMvvm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0ACD4C8738E4058E3AA7D07 /* Pods_SuitMovieMvvm.framework */; };
 		A3D577132165DED700842DC6 /* LaunchHandlerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D577122165DED700842DC6 /* LaunchHandlerViewController.swift */; };
 		EF6229D92164A68500D60F4D /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6229D82164A68500D60F4D /* BaseViewModel.swift */; };
@@ -77,6 +79,8 @@
 		20737BE72189822100041C07 /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		20737BE82189822100041C07 /* MovieCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieCell.xib; sourceTree = "<group>"; };
 		20737BED218983C100041C07 /* MovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewModel.swift; sourceTree = "<group>"; };
+		20925171218C457F00530F7E /* UIKitExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitExtensions.swift; sourceTree = "<group>"; };
+		20925173218C45B700530F7E /* RxExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxExtensions.swift; sourceTree = "<group>"; };
 		A3D577122165DED700842DC6 /* LaunchHandlerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchHandlerViewController.swift; sourceTree = "<group>"; };
 		D0ACD4C8738E4058E3AA7D07 /* Pods_SuitMovieMvvm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SuitMovieMvvm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC1B6496A9C02A56108F7F30 /* Pods-SuitMovieMvvm.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuitMovieMvvm.release.xcconfig"; path = "Pods/Target Support Files/Pods-SuitMovieMvvm/Pods-SuitMovieMvvm.release.xcconfig"; sourceTree = "<group>"; };
@@ -296,6 +300,8 @@
 				EFA0C65C216201BA008EDE1A /* UIViewController+Extensions.swift */,
 				EFA0C65E216201BA008EDE1A /* UIViewExtension.swift */,
 				EFA0C65F216201BB008EDE1A /* URLExtension.swift */,
+				20925171218C457F00530F7E /* UIKitExtensions.swift */,
+				20925173218C45B700530F7E /* RxExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -554,6 +560,7 @@
 				EFA0C693216201E9008EDE1A /* MXSegmentedPager.m in Sources */,
 				EFA0C665216201BB008EDE1A /* DateExtension.swift in Sources */,
 				20737BEE218983C100041C07 /* MovieViewModel.swift in Sources */,
+				20925174218C45B700530F7E /* RxExtensions.swift in Sources */,
 				EFA0C6B821620207008EDE1A /* DocumentsPreviewController.swift in Sources */,
 				EFA0C676216201BB008EDE1A /* String+Additions.swift in Sources */,
 				EFA0C674216201BB008EDE1A /* UIViewExtension.swift in Sources */,
@@ -596,6 +603,7 @@
 				EFA0C68E216201E9008EDE1A /* MXPagerView.m in Sources */,
 				EFA0C675216201BB008EDE1A /* URLExtension.swift in Sources */,
 				EFA0C66E216201BB008EDE1A /* NSAttributedStringExtension.swift in Sources */,
+				20925172218C457F00530F7E /* UIKitExtensions.swift in Sources */,
 				EFA0C6B021620207008EDE1A /* DetachableObject.swift in Sources */,
 				EFA0C668216201BB008EDE1A /* UIColor+Extension.swift in Sources */,
 				EFA0C6B121620207008EDE1A /* ErrorManager.swift in Sources */,

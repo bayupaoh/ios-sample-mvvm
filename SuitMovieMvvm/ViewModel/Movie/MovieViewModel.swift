@@ -11,23 +11,52 @@ import RxSwift
 import RxCocoa
 
 class MovieViewModel: BaseViewModel {
-    var movies = Variable<[Movie]>([])
-    
-    init() {
-        super.init()
-        loadData(apiKey: "1b2f29d43bf2e4f3142530bc6929d341")
+    //versi baru
+    struct Input {
+        let endOfCollectionTrigger: Driver<Void>
+        let itemDidSelect: Driver<IndexPath>
     }
     
-    func loadData(apiKey:String){
-        Observable.just(apiKey)
-            .flatMapLatest { apiKey in self.service.favoriteMovie(apiKey: apiKey) }
-            .do(onNext:{ data in
-                self.movies.value = data
-                self.saveListOfModels(data: data.detached())
-            })
-            .do(onError: { error in
-            })
-            .subscribe()
-            .disposed(by: disposeBag)
+    struct Output {
+        let movieCellViewModel: Driver<[Movie]>
+        let selectMovie : Driver<Movie>
+    }
+    
+    let apiKey = "1b2f29d43bf2e4f3142530bc6929d341"
+
+    func loadData(input:Input) -> Output {
+        let page = BehaviorRelay<Int>(value: 1)
+        let items = BehaviorRelay<[Movie]>(value: [])
+        let nextPageAvailable = BehaviorRelay<Bool>(value: true)
+        
+        let nextPageTrigger = input.endOfCollectionTrigger.withLatestFrom(nextPageAvailable.asDriver())
+            .flatMapLatest { (available) -> Driver<Void> in
+                return available ? Driver.just(()) : Driver.empty()
+        }
+        
+        let results = nextPageTrigger
+            .withLatestFrom(page.asDriver())
+            .flatMapLatest { p -> Driver<[Movie]> in
+                return self.service.favoriteMovie(apiKey: self.apiKey,page:p)
+                .asDriverOnErrorJustComplete()
+            }
+            .map { result -> [Movie] in
+                items.accept(items.value + result)
+                page.accept(page.value + 1)
+                nextPageAvailable.accept(!result.isEmpty)
+                
+                return items.value
+        }
+        
+        let movieList = results.map{
+            $0.enumerated().map{$1}
+        }
+        
+        let selectedMovie = input.itemDidSelect
+            .withLatestFrom(results) { (indexPath, results) -> Movie in
+                return results[indexPath.row]
+            }
+        
+        return Output(movieCellViewModel: movieList, selectMovie: selectedMovie)
     }
 }

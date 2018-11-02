@@ -15,7 +15,6 @@ class MovieViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var viewModel:MovieViewModel?
-    var movies: [Movie] = []
     var disposeBag = DisposeBag()
     
     static func instantiateNav() -> UIViewController {
@@ -40,17 +39,20 @@ class MovieViewController: UIViewController {
     }
     
     private func setupDataBinding(){
-        viewModel?.movies.asObservable()
-            .bind(to: tableView.rx.items(cellIdentifier: MovieCell.className(), cellType: MovieCell.self))(setupCell)
-            .disposed(by: disposeBag)
+        let viewModelInput = MovieViewModel.Input(endOfCollectionTrigger:tableView.rx_reachedBottom.asDriverOnErrorJustComplete(),itemDidSelect:tableView.rx.itemSelected.asDriver())
+        let output = viewModel?.loadData(input: viewModelInput)
         
-        Observable
-            .zip(tableView.rx.itemSelected, tableView.rx.modelSelected(Movie.self))
-            .bind { [unowned self] indexPath, model in
-                self.tableView.deselectRow(at: indexPath, animated: true)
-                print("Selected \(model.title) at \(indexPath)")
-            }
-            .disposed(by: disposeBag)
+        output?.movieCellViewModel.drive(tableView.rx.items){ tableView, index, model in
+            let indexPath = IndexPath(item: index, section: 0)
+            let cell = tableView.dequeueReusableCell(withIdentifier: MovieCell.className(), for: indexPath) as! MovieCell
+            cell.movie = model
+            return cell
+        }
+        
+        output?.selectMovie.drive(onNext:{ movie in
+            print("\(movie.title)")
+        })
+        .disposed(by: disposeBag)
     }
  
     private func setupCell(row: Int, element: Movie, cell: MovieCell){

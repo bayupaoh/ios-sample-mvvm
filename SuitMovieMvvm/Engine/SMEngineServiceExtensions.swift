@@ -20,8 +20,8 @@ struct APIResponse {
 }
 
 extension SMEngineService {
-    func favoriteMovie(apiKey:String) -> Observable<[Movie]> {
-        return manager.requestJSON(.get, home + "/3/discover/movie?api_key=\(apiKey)", parameters: nil, headers: nil)
+    func favoriteMovie(apiKey:String,page:Int) -> Observable<[Movie]> {
+        return manager.requestJSON(.get, home + "/3/discover/movie?api_key=\(apiKey)&page=\(page)", parameters: nil, headers: nil)
             .mapJson()
             .do(onError: { error in
                 print("🚫 \(error.localizedDescription)")
