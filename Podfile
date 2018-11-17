@@ -21,4 +21,9 @@ target 'SuitMovieMvvm' do
     pod 'SVProgressHUD'
     pod 'SVPullToRefresh'
     
+    target 'SuitMovieMvvmTests' do
+        inherit! :search_paths
+        pod 'RxBlocking'
+        pod 'RxTest'
+    end
 end

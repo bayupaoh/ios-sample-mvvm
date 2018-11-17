@@ -27,3 +27,17 @@ extension UIScrollView {
         }
     }
 }
+
+extension UIRefreshControl {
+    public var rx_didPullRefresh : Observable<Void> {
+        return rx.controlEvent(.valueChanged)
+            .debounce(0.025, scheduler: MainScheduler.instance)
+            .flatMap{[weak self] refreshControl -> Observable<Void> in
+                guard let refresh = self else {
+                    return Observable.empty()
+                }
+                
+                return refresh.isRefreshing ? Observable.just(()) : Observable.empty()
+        }
+    }
+}

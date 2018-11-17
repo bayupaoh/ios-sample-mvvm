@@ -15,6 +15,7 @@ class MovieViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var viewModel:MovieViewModel?
+    let refreshControl =  UIRefreshControl()
     var disposeBag = DisposeBag()
     
     static func instantiateNav() -> UIViewController {
@@ -27,7 +28,6 @@ class MovieViewController: UIViewController {
         setupViewModel()
         setupTableView()
         setupDataBinding()
-        
     }
     
     private func setupViewModel(){
@@ -36,22 +36,41 @@ class MovieViewController: UIViewController {
     
     private func setupTableView(){
         tableView.register(MovieCell.loadNib(), forCellReuseIdentifier: MovieCell.className())
+        tableView.refreshControl = refreshControl
+        tableView.refreshControl?.tintColor = .darkGray
+        tableView.allowsSelection = false
+        tableView.estimatedRowHeight = 44
+        tableView.rowHeight = UITableViewAutomaticDimension
+
     }
     
+    @objc func handleRefresh(_ rc: UIRefreshControl) {
+    }
+
+    
     private func setupDataBinding(){
-        let viewModelInput = MovieViewModel.Input(endOfCollectionTrigger:tableView.rx_reachedBottom.asDriverOnErrorJustComplete(),itemDidSelect:tableView.rx.itemSelected.asDriver())
+        let pull = tableView.refreshControl!.rx
+            .controlEvent(.valueChanged)
+            .asDriver()
+        
+        let viewModelInput = MovieViewModel.Input(pullOfCollectionTrigger:pull,endOfCollectionTrigger:tableView.rx_reachedBottom.asDriverOnErrorJustComplete(),itemDidSelect:tableView.rx.itemSelected.asDriver())
         let output = viewModel?.loadData(input: viewModelInput)
         
-        output?.movieCellViewModel.drive(tableView.rx.items){ tableView, index, model in
+        output?.movieCellViewModel
+            .drive(tableView.rx.items){ tableView, index, model in
             let indexPath = IndexPath(item: index, section: 0)
             let cell = tableView.dequeueReusableCell(withIdentifier: MovieCell.className(), for: indexPath) as! MovieCell
             cell.movie = model
             return cell
-        }
+        }.disposed(by: disposeBag)
         
         output?.selectMovie.drive(onNext:{ movie in
             print("\(movie.title)")
         })
+        .disposed(by: disposeBag)
+        
+        output?.fetching
+        .drive(tableView.refreshControl!.rx.isRefreshing)
         .disposed(by: disposeBag)
     }
  

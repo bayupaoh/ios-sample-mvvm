@@ -11,9 +11,13 @@ PODS:
   - RxAlamofire/Core (4.3.0):
     - Alamofire (~> 4.5)
     - RxSwift (~> 4)
+  - RxBlocking (4.3.1):
+    - RxSwift (~> 4.0)
   - RxCocoa (4.3.1):
     - RxSwift (~> 4.0)
   - RxSwift (4.3.1)
+  - RxTest (4.3.1):
+    - RxSwift (~> 4.0)
   - SVProgressHUD (2.2.5)
   - SVPullToRefresh (0.4.1)
   - SwiftDate (4.4.1)
@@ -24,8 +28,10 @@ DEPENDENCIES:
   - ISO8601
   - RealmSwift
   - RxAlamofire
+  - RxBlocking
   - RxCocoa
   - RxSwift
+  - RxTest
   - SVProgressHUD
   - SVPullToRefresh
   - SwiftDate (= 4.4.1)
@@ -38,8 +44,10 @@ SPEC REPOS:
     - Realm
     - RealmSwift
     - RxAlamofire
+    - RxBlocking
     - RxCocoa
     - RxSwift
+    - RxTest
     - SVProgressHUD
     - SVPullToRefresh
     - SwiftDate
@@ -51,13 +59,15 @@ SPEC CHECKSUMS:
   Realm: 037c5919b9ceb59d6beed5d3b031096856b119b3
   RealmSwift: c9580133e73ef40ed340401af2dbc9a5790dfea7
   RxAlamofire: 09624d0f2d48ed8b686e4eb4cf68e28cbd2df556
+  RxBlocking: 64c051285261ca2339481e91b5f70eb06b03660a
   RxCocoa: 78763c7b07d02455598d9fc3c1ad091a28b73635
   RxSwift: fe0fd770a43acdb7d0a53da411c9b892e69bb6e4
+  RxTest: ea97a208826906f3904c0debdd09575ebcbfe216
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SVPullToRefresh: ba2e718695a43253d8bea6852d2960097dc15d8c
   SwiftDate: a70a534d4feed03b2a2b575e36bef82dc2286a8d
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
 
-PODFILE CHECKSUM: adf5843520ba068714b5dcad08ca301eaa5a4d02
+PODFILE CHECKSUM: 389f4651c6a6a6965bfa71f12e25ce47d45aae73
 
 COCOAPODS: 1.5.3
