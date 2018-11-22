@@ -18,16 +18,28 @@ class MovieViewController: UIViewController {
     let refreshControl =  UIRefreshControl()
     var disposeBag = DisposeBag()
     
-    static func instantiateNav() -> UIViewController {
+    static func instantiate() -> UIViewController {
         let nav = UIStoryboard.main.instantiateViewController(withIdentifier: MovieViewController.className()) as! UIViewController
+        return nav
+    }
+
+    static func instantiateNav() -> UINavigationController {
+        let nav = UIStoryboard.main.instantiateViewController(withIdentifier: "MovieViewControllerNav") as! UINavigationController
         return nav
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNav()
         setupViewModel()
         setupTableView()
         setupDataBinding()
+    }
+    
+    private func setupNav(){
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationController?.navigationItem.largeTitleDisplayMode = .never
+        title = "List Movie"
     }
     
     private func setupViewModel(){
@@ -41,19 +53,18 @@ class MovieViewController: UIViewController {
         tableView.allowsSelection = false
         tableView.estimatedRowHeight = 44
         tableView.rowHeight = UITableViewAutomaticDimension
-
     }
-    
-    @objc func handleRefresh(_ rc: UIRefreshControl) {
-    }
-
     
     private func setupDataBinding(){
+        let viewWillAppear = rx.sentMessage(#selector(UIViewController.viewWillAppear(_:)))
+            .mapToVoid()
+            .asDriverOnErrorJustComplete()
+        
         let pull = tableView.refreshControl!.rx
             .controlEvent(.valueChanged)
             .asDriver()
         
-        let viewModelInput = MovieViewModel.Input(pullOfCollectionTrigger:pull,endOfCollectionTrigger:tableView.rx_reachedBottom.asDriverOnErrorJustComplete(),itemDidSelect:tableView.rx.itemSelected.asDriver())
+        let viewModelInput = MovieViewModel.Input(pullOfCollectionTrigger:Driver.merge(viewWillAppear,pull),endOfCollectionTrigger:tableView.rx_reachedBottom.asDriverOnErrorJustComplete(),itemDidSelect:tableView.rx.itemSelected.asDriver())
         let output = viewModel?.loadData(input: viewModelInput)
         
         output?.movieCellViewModel

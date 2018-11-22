@@ -15,7 +15,7 @@ import RxTest
 @testable import SuitMovieMvvm
 
 class MovieTableViewTest: XCTestCase {
-    
+    public var service = SMEngineService.instance
     let disposeBag = DisposeBag()
     
     override func setUp() {
@@ -28,10 +28,20 @@ class MovieTableViewTest: XCTestCase {
         super.tearDown()
     }
     
+
     func testTableViewWhenReachBottomandClick() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
+        
+        var vm = MovieViewModel()
+        vm.service = self.service
+        vm.disposeBag = disposeBag
         let testScheduler = TestScheduler(initialClock: 0)
+        
+        let mockPullRefereshTriggerEvents: [Recorded<Event<Void>>] = [
+            Recorded.next(300, ())
+        ]
+        
         let mockReachBottomTriggerEvents: [Recorded<Event<Void>>] = [
             Recorded.next(50, ()),
             Recorded.next(100, ()),
@@ -41,24 +51,19 @@ class MovieTableViewTest: XCTestCase {
         let indexPath = IndexPath(item: 0, section: 0)
         let mockClickTriggerEvents: [Recorded<Event<IndexPath>>] = []
         
+        let mockRefreshTrigger = testScheduler.createHotObservable(mockPullRefereshTriggerEvents)
         let mockReachBottomGridTrigger = testScheduler.createHotObservable(mockReachBottomTriggerEvents)
         let mockClickTrigger = testScheduler.createHotObservable(mockClickTriggerEvents)
         let observerMovieCell = testScheduler.createObserver([Movie].self)
         
-        let vm = MovieViewModel()
-        let vmInput = MovieViewModel.Input.init(endOfCollectionTrigger: mockReachBottomGridTrigger.asDriverOnErrorJustComplete(), itemDidSelect: mockClickTrigger.asDriverOnErrorJustComplete())
+        let vmInput = MovieViewModel.Input.init(pullOfCollectionTrigger: mockRefreshTrigger.asDriver(onErrorJustReturn: ()), endOfCollectionTrigger: mockReachBottomGridTrigger.asDriver(onErrorJustReturn: ()), itemDidSelect: mockClickTrigger.asDriver(onErrorJustReturn: indexPath))
         let vmOutput = vm.loadData(input: vmInput)
         
         vmOutput.movieCellViewModel.drive(observerMovieCell).disposed(by: self.disposeBag)
         testScheduler.start()
         
-        let expectedEvents = [
-            next(50, [Movie]),
-            next(100, [Movie]),
-            next(200, [Movie])
-        ]
-        
-        XCTAssertEqual(observerMovieCell.events, expectedEvents)
+        print("\(observerMovieCell.events.last?.value.element?.count)")
+        XCTAssertEqual(observerMovieCell.events.last?.value.element?.count, 10)
         
     }
 }

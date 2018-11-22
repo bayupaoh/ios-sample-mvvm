@@ -32,9 +32,9 @@ struct MovieViewModel {
     func loadData(input:Input) -> Output {
         let activityIndicator = ActivityIndicator()
         let errorTracker = ErrorTracker()
-        let page = BehaviorRelay<Int>(value: 1)
-        let items = BehaviorRelay<[Movie]>(value: [])
-        let nextPageAvailable = BehaviorRelay<Bool>(value: true)
+        let page = Variable(1)
+        let items = Variable([Movie]())
+        let nextPageAvailable = Variable(true)
         
         var movieList: Driver<[Movie]>?
 
@@ -54,9 +54,9 @@ struct MovieViewModel {
                     .asDriverOnErrorJustComplete()
             }
             .map { result -> [Movie] in
-                                items.accept(items.value + result)
-                                page.accept(page.value + 1)
-                                nextPageAvailable.accept(!result.isEmpty)                
+                                items.value = items.value + result
+                                page.value = page.value + 1
+                                nextPageAvailable.value = !result.isEmpty
                 return items.value
         }
 
@@ -68,8 +68,8 @@ struct MovieViewModel {
                 .asDriverOnErrorJustComplete()
             }
             .map { result -> [Movie] in
-                items.accept(result)
-                page.accept(2)
+                items.value  = result
+                page.value = 2
                 return items.value
         }
         
